@@ -9,8 +9,8 @@ require "facter"
 require "kernel_modules"
 require "set"
 
-VSCTL = "/usr/bin/ovs-vsctl"
-OFCTL = "/usr/bin/ovs-ofctl"
+VSCTL = "/usr/bin/ovs-vsctl" unless defined? VSCTL
+OFCTL = "/usr/bin/ovs-ofctl" unless defined? OFCTL
 
 module OpenVSwitch
     def self.exec(bin, cmd)
@@ -47,7 +47,11 @@ end
 
 Facter.add("openvswitch_module") do
     setcode do
-        Facter.value(:kernel_modules).split(",").include? "openvswitch_mod"
+        if kernel_modules = Facter.value(:kernel_modules)
+          kernel_modules.split(",").include? "openvswitch_mod"
+        else
+          false
+        end
     end
 end
 
