@@ -6,7 +6,7 @@
 #
 # Caveats:
 require "facter"
-require "kernel_modules"
+#require "kernel_modules"
 require "set"
 
 VSCTL = "/usr/bin/ovs-vsctl" unless defined? VSCTL
